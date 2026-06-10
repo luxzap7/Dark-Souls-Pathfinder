@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dark Souls Pathfinder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/intro.css" />
+  <link rel="stylesheet" href="/css/hub.css" />
+  <link rel="stylesheet" href="/css/zones.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="stylesheet" href="/css/world.css" />
+</head>
+<body>
+
+  <!-- Auth corner — always visible -->
+  <div id="auth-corner">
+    <div id="auth-user-info" class="auth-user-info hidden"></div>
+    <button id="auth-btn" class="auth-icon-btn" aria-label="Account">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12z"/>
+        <path d="M4 21.6c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+      </svg>
+    </button>
+    <!-- Admin panel link — only visible to admins -->
+    <button id="admin-panel-btn" class="btn-ghost hidden" style="font-size:11px;padding:6px 12px">⚔ Admin</button>
+  </div>
+
+  <main id="app"></main>
+
+  <!-- Auth modal -->
+  <div id="auth-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+      <div class="modal-tabs">
+        <button class="tab-btn active" data-tab="login">Sign In</button>
+        <button class="tab-btn" data-tab="register">Register</button>
+      </div>
+      <form id="login-form" class="auth-form" novalidate>
+        <div class="field-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" autocomplete="email" required />
+          <span class="field-error" id="login-email-err"></span>
+        </div>
+        <div class="field-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" autocomplete="current-password" required />
+          <span class="field-error" id="login-password-err"></span>
+        </div>
+        <span class="form-error" id="login-form-err"></span>
+        <button type="submit" class="btn-primary">Enter Lordran</button>
+      </form>
+      <form id="register-form" class="auth-form hidden" novalidate>
+        <div class="field-group">
+          <label for="reg-username">Username</label>
+          <input type="text" id="reg-username" autocomplete="username" required minlength="3" maxlength="50" />
+          <span class="field-error" id="reg-username-err"></span>
+        </div>
+        <div class="field-group">
+          <label for="reg-email">Email</label>
+          <input type="email" id="reg-email" autocomplete="email" required />
+          <span class="field-error" id="reg-email-err"></span>
+        </div>
+        <div class="field-group">
+          <label for="reg-password">Password</label>
+          <input type="password" id="reg-password" autocomplete="new-password" required minlength="8" />
+          <span class="field-error" id="reg-password-err"></span>
+        </div>
+        <div class="field-group">
+          <label for="reg-confirm">Confirm Password</label>
+          <input type="password" id="reg-confirm" autocomplete="new-password" required />
+          <span class="field-error" id="reg-confirm-err"></span>
+        </div>
+        <div class="field-group hidden" id="admin-key-group">
+          <label for="reg-adminkey">Admin Key</label>
+          <input type="password" id="reg-adminkey" />
+        </div>
+        <label class="checkbox-label">
+          <input type="checkbox" id="reg-is-admin" />
+          Register as Admin
+        </label>
+        <span class="form-error" id="reg-form-err"></span>
+        <button type="submit" class="btn-primary">Begin the Journey</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lore read modal (for users) -->
+  <div id="lore-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-box lore-modal-box">
+      <button class="modal-close" id="lore-modal-close" aria-label="Close">&times;</button>
+      <h2 class="lore-modal-title" id="lore-modal-title"></h2>
+      <div class="divider"></div>
+      <div class="lore-modal-body" id="lore-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Lore edit modal (admin only) -->
+  <div id="lore-edit-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-box lore-edit-modal-box">
+      <button class="modal-close" id="lore-edit-close" aria-label="Close">&times;</button>
+      <h2 id="lore-edit-title">Edit Lore</h2>
+      <span class="lore-edit-subtitle" id="lore-edit-subtitle"></span>
+      <textarea id="lore-edit-textarea" placeholder="Write the lore for this location or boss..."></textarea>
+      <div class="lore-char-count"><span id="lore-char-count">0</span> characters</div>
+      <span class="form-error" id="lore-edit-err"></span>
+      <div class="lore-edit-actions">
+        <button class="btn-ghost" id="lore-edit-cancel">Cancel</button>
+        <button class="btn-primary" id="lore-edit-save">Save Lore</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/router.js"></script>
+<script src="/js/lore.js"></script>
+<script src="/js/views/intro.js"></script>
+<script src="/js/views/landing.js"></script>
+<script src="/js/views/hub.js"></script>
+<script src="/js/views/zones.js"></script>
+<script src="/js/views/boss.js"></script>
+<script src="/js/views/admin.js"></script>
+<script src="/js/views/world.js"></script>
+<script src="/js/views/literature.js"></script>
+<script src="/js/app.js"></script>
+
+  <!-- Footer nav — literature link always accessible -->
+  <footer id="site-footer" style="position:fixed;bottom:0;right:0;z-index:300;padding:6px 14px;">
+    <button onclick="Router.navigate('literature')"
+      style="background:none;border:none;font-family:var(--font-heading);font-size:10px;
+             letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);
+             cursor:pointer;transition:color .2s;padding:4px;"
+      onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color=''">
+      Sources
+    </button>
+  </footer>
+</body>
+</html>

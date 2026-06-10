@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+  <rect width="800" height="520" fill="#0a0906"/>
+  <rect width="800" height="520" fill="url(#g1)"/>
+  <defs>
+    <radialGradient id="g1" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#2a1f0a" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#050403" stop-opacity="1"/>
+    </radialGradient>
+  </defs>
+  <!-- Bonfire flame -->
+  <ellipse cx="400" cy="360" rx="60" ry="12" fill="#1a0f00" opacity="0.8"/>
+  <path d="M400 340 Q390 300 370 260 Q385 290 395 270 Q400 240 405 270 Q415 290 430 260 Q410 300 400 340Z" fill="#c9a84c" opacity="0.7"/>
+  <path d="M400 340 Q393 310 378 278 Q390 300 397 280 Q400 255 403 280 Q410 300 422 278 Q407 310 400 340Z" fill="#e8c96a" opacity="0.9"/>
+  <path d="M400 338 Q396 318 388 295 Q397 310 400 295 Q403 310 412 295 Q404 318 400 338Z" fill="#fff8e1" opacity="0.6"/>
+  <!-- Title -->
+  <text x="400" y="430" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#c9a84c" letter-spacing="6" opacity="0.9">DARK SOULS</text>
+  <text x="400" y="460" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#8a6f2e" letter-spacing="4">REMASTERED</text>
+  <!-- Decorative lines -->
+  <line x1="280" y1="415" x2="340" y2="415" stroke="#8a6f2e" stroke-width="0.5" opacity="0.6"/>
+  <line x1="460" y1="415" x2="520" y2="415" stroke="#8a6f2e" stroke-width="0.5" opacity="0.6"/>
+</svg>

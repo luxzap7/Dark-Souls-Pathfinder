@@ -1,0 +1,254 @@
+/* ================================================
+   ADMIN PANEL & LORE EDIT SYSTEM
+   ================================================ */
+
+/* ── Lore Edit Button (+ gumb na slikama) ── */
+.lore-edit-btn {
+  position: absolute;
+  top: 10px; right: 10px;
+  z-index: 20;
+  width: 32px; height: 32px;
+  background: rgba(201,168,76,0.2);
+  border: 1px solid var(--gold-dim);
+  border-radius: 50%;
+  color: var(--gold);
+  font-size: 18px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Show on parent hover */
+.zone-card:hover .lore-edit-btn,
+.boss-list-item:hover .lore-edit-btn,
+.zone-hero:hover .lore-edit-btn,
+.boss-hero:hover .lore-edit-btn {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Always visible on hero (bigger target) */
+.zone-hero .lore-edit-btn,
+.boss-hero .lore-edit-btn {
+  width: 38px; height: 38px;
+  top: 70px; right: 20px;
+  opacity: 0;
+}
+.zone-hero:hover .lore-edit-btn,
+.boss-hero:hover .lore-edit-btn {
+  opacity: 1;
+}
+
+.lore-edit-btn:hover {
+  background: var(--gold);
+  color: var(--bg-deepest);
+  transform: scale(1.15);
+  box-shadow: 0 0 16px var(--gold-glow);
+}
+
+/* ── Lore Edit Modal ── */
+.lore-edit-modal-box {
+  max-width: 600px;
+}
+
+.lore-edit-modal-box h2 {
+  font-family: var(--font-title);
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+
+.lore-edit-subtitle {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: block;
+}
+
+#lore-edit-textarea {
+  width: 100%;
+  min-height: 220px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.8;
+  padding: 14px;
+  resize: vertical;
+  outline: none;
+  transition: border-color var(--transition);
+  margin-bottom: 12px;
+}
+#lore-edit-textarea:focus { border-color: var(--gold); }
+
+.lore-char-count {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: right;
+  margin-bottom: 16px;
+}
+
+.lore-edit-actions {
+  display: flex;
+  gap: 12px;
+}
+.lore-edit-actions .btn-primary { flex: 1; }
+.lore-edit-actions .btn-ghost   { width: auto; }
+
+/* ── Admin Panel View ── */
+#view-admin {
+  min-height: 100vh;
+  padding: 80px 24px 60px;
+  position: relative; z-index: 1;
+}
+
+.admin-header {
+  max-width: 1000px; margin: 0 auto 48px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+}
+.admin-header h1 {
+  font-family: var(--font-title);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+}
+.admin-header p {
+  font-family: var(--font-heading);
+  font-size: 11px; letter-spacing: 0.15em;
+  color: var(--text-muted); text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.admin-body {
+  max-width: 1000px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.admin-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.admin-card__header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-raised);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.admin-card__title {
+  font-family: var(--font-heading);
+  font-size: 12px; letter-spacing: 0.12em;
+  color: var(--text-gold); text-transform: uppercase;
+}
+.admin-card__count {
+  font-family: var(--font-heading);
+  font-size: 11px; color: var(--text-muted);
+}
+
+.admin-card__body { padding: 0; }
+
+/* Stats grid */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+}
+.admin-stat {
+  background: var(--bg-surface);
+  padding: 20px;
+  text-align: center;
+}
+.admin-stat__value {
+  font-family: var(--font-heading);
+  font-size: 2rem; color: var(--gold);
+  margin-bottom: 4px;
+}
+.admin-stat__label {
+  font-family: var(--font-heading);
+  font-size: 10px; letter-spacing: 0.12em;
+  color: var(--text-muted); text-transform: uppercase;
+}
+
+/* User table */
+.admin-user-table {
+  width: 100%; border-collapse: collapse;
+}
+.admin-user-table th {
+  font-family: var(--font-heading);
+  font-size: 10px; letter-spacing: 0.12em;
+  color: var(--text-muted); text-transform: uppercase;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  background: var(--bg-raised);
+}
+.admin-user-table td {
+  padding: 11px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(201,168,76,0.06);
+  color: var(--text-secondary);
+}
+.admin-user-table tr:last-child td { border-bottom: none; }
+.admin-user-table tr:hover td { background: var(--bg-hover); }
+
+.role-pill {
+  font-family: var(--font-heading);
+  font-size: 10px; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 2px 8px;
+  border-radius: 10px; display: inline-block;
+}
+.role-pill--admin { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid var(--gold-dim); }
+.role-pill--user  { background: rgba(90,86,79,0.2); color: var(--text-muted); border: 1px solid var(--border); }
+
+/* Lore management list */
+.lore-manage-list { max-height: 320px; overflow-y: auto; }
+.lore-manage-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(201,168,76,0.06);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.lore-manage-item:last-child { border-bottom: none; }
+.lore-manage-item:hover { background: var(--bg-hover); }
+.lore-manage-item__img {
+  width: 44px; height: 44px; border-radius: var(--radius);
+  object-fit: cover; flex-shrink: 0;
+  border: 1px solid var(--border); filter: brightness(0.8);
+}
+.lore-manage-item__info { flex: 1; min-width: 0; }
+.lore-manage-item__name {
+  font-family: var(--font-heading); font-size: 13px;
+  color: var(--text-primary); margin-bottom: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.lore-manage-item__status {
+  font-size: 11px; font-family: var(--font-heading); letter-spacing: 0.06em;
+}
+.lore-manage-item__status--set   { color: var(--success); }
+.lore-manage-item__status--empty { color: var(--text-muted); }
+.lore-manage-item__edit { color: var(--gold-dim); font-size: 13px; }
+
+@media (max-width: 768px) {
+  .admin-body { grid-template-columns: 1fr; }
+  .admin-stats-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── Admin responsive ── */
+@media (max-width: 700px) {
+  .admin-body { grid-template-columns: 1fr; }
+  .admin-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .admin-header { flex-direction: column; align-items: flex-start; }
+  #view-admin { padding: 72px 14px 40px; }
+}
