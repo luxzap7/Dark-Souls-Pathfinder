@@ -274,19 +274,65 @@ function renderMap(zones, gameId) {
     [30,31],[31,32],[32,35]
   ];
 
-  const layout      = gameId === 2 ? ds2Layout      : ds1Layout;
-  const connections = gameId === 2 ? ds2Connections  : ds1Connections;
+  // ── DS3: Lothric ─────────────────────────────
+  const ds3Layout = [
+    { id: 36, x: 262, y: 25,  label: 'Cemetery of Ash',   w: 138 },
+    { id: 37, x: 272, y: 95,  label: 'Firelink Shrine',   w: 125 },
+    { id: 52, x: 28,  y: 165, label: 'Archdragon Peak',   w: 135 },
+    { id: 39, x: 182, y: 165, label: 'Undead Settlement', w: 148 },
+    { id: 38, x: 438, y: 165, label: 'High Wall',         w: 110 },
+    { id: 40, x: 162, y: 235, label: 'Road of Sacrifices',w: 148 },
+    { id: 49, x: 438, y: 235, label: 'Lothric Castle',    w: 128 },
+    { id: 41, x: 42,  y: 305, label: 'Cathedral',         w: 110 },
+    { id: 42, x: 220, y: 305, label: 'Farron Keep',       w: 108 },
+    { id: 50, x: 438, y: 305, label: 'Grand Archives',    w: 125 },
+    { id: 43, x: 202, y: 375, label: 'Catacombs Carthus', w: 145 },
+    { id: 51, x: 440, y: 375, label: 'Untended Graves',   w: 132 },
+    { id: 44, x: 72,  y: 445, label: 'Smouldering Lake',  w: 138 },
+    { id: 45, x: 262, y: 445, label: 'Irithyll',          w: 98  },
+    { id: 48, x: 418, y: 445, label: 'Anor Londo',        w: 110 },
+    { id: 46, x: 255, y: 515, label: 'Irithyll Dungeon',  w: 132 },
+    { id: 47, x: 418, y: 515, label: 'Profaned Capital',  w: 138 },
+    { id: 53, x: 265, y: 635, label: 'Kiln of 1st Flame', w: 142 },
+  ];
+  const ds3Connections = [
+    [36,37],
+    [37,38],[37,39],
+    [38,39],[38,49],
+    [39,40],[39,52],
+    [40,41],[40,42],
+    [42,43],
+    [43,44],[43,45],
+    [45,46],[45,48],
+    [46,47],
+    [49,50],[49,51],
+    [42,53],[48,53],[47,53],[50,53]
+  ];
 
-  const svgH  = gameId === 2 ? 690 : 630;
+  const layout      = gameId === 3 ? ds3Layout      : gameId === 2 ? ds2Layout      : ds1Layout;
+  const connections = gameId === 3 ? ds3Connections  : gameId === 2 ? ds2Connections  : ds1Connections;
+
+  const svgH  = gameId === 2 ? 690 : gameId === 3 ? 690 : 630;
   const nodeH = 28;
 
-  const mapName  = gameId === 2 ? 'Drangleic' : 'Lordran';
-  const mapIntro = gameId === 2
+  const mapName  = gameId === 3 ? 'Lothric' : gameId === 2 ? 'Drangleic' : 'Lordran';
+  const mapIntro = gameId === 3
+    ? 'A schematic map of Lothric — the kingdom at the end of the Age of Fire.'
+    : gameId === 2
     ? 'A schematic map of Drangleic — the kingdom built on the bones of countless cycles.'
     : 'A schematic map of Lordran — the cursed kingdom of the undead.';
 
   // Region label bands
-  const regionBands = gameId === 2 ? `
+  const regionBands = gameId === 3 ? `
+    <text x="330" y="75" text-anchor="middle" font-family="Georgia,serif"
+          font-size="9" fill="#3a3020" letter-spacing="4">CEMETERY OF ASH</text>
+    <line x1="40" y1="148" x2="620" y2="148" stroke="#2a2018" stroke-width="0.5" stroke-dasharray="4 6"/>
+    <text x="330" y="415" text-anchor="middle" font-family="Georgia,serif"
+          font-size="9" fill="#3a3020" letter-spacing="4">THE KINGDOM OF LOTHRIC</text>
+    <line x1="40" y1="428" x2="620" y2="428" stroke="#2a2018" stroke-width="0.5" stroke-dasharray="4 6"/>
+    <text x="330" y="610" text-anchor="middle" font-family="Georgia,serif"
+          font-size="9" fill="#3a3020" letter-spacing="4">KILN OF THE FIRST FLAME</text>
+  ` : gameId === 2 ? `
     <text x="330" y="75" text-anchor="middle" font-family="Georgia,serif"
           font-size="9" fill="#3a3020" letter-spacing="4">THINGS BETWIXT / MAJULA</text>
     <line x1="40" y1="148" x2="620" y2="148" stroke="#2a2018" stroke-width="0.5" stroke-dasharray="4 6"/>
