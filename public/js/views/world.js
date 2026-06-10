@@ -44,7 +44,7 @@ Router.register('world', async (app, { gameId, game }) => {
 
     <div class="world-header">
       <h1 class="world-header__title">${game?.title || 'Dark Souls'} — World</h1>
-      <p class="world-header__sub">Lore, Locations &amp; Legends of Lordran</p>
+      <p class="world-header__sub">Lore, Locations &amp; Legends of ${gameId === 2 ? 'Drangleic' : gameId === 3 ? 'Lothric' : 'Lordran'}</p>
       <nav class="world-nav" role="tablist" aria-label="World sections">
         <button class="world-nav__btn active" data-tab="overview" role="tab" aria-selected="true">Overview</button>
         <button class="world-nav__btn" data-tab="zones"    role="tab" aria-selected="false">Zones</button>
@@ -57,7 +57,7 @@ Router.register('world', async (app, { gameId, game }) => {
       <div id="tab-overview" class="world-tab">${renderOverview(zones, allBosses)}</div>
       <div id="tab-zones"    class="world-tab hidden">${renderZonesWiki(zones)}</div>
       <div id="tab-bosses"   class="world-tab hidden">${renderBossesWiki(allBosses)}</div>
-      <div id="tab-map"      class="world-tab hidden">${renderMap(zones)}</div>
+      <div id="tab-map"      class="world-tab hidden">${renderMap(zones, gameId)}</div>
     </div>`;
 
   app.innerHTML = '';  
@@ -209,39 +209,102 @@ function renderBossesWiki(bosses) {
 }
 
 /* ──────────────────────────────────────────────────
-   MAP TAB — SVG map of Lordran with zone nodes
+   MAP TAB — SVG map switching by gameId
    ──────────────────────────────────────────────── */
-function renderMap(zones) {
-  // Lordran zone positions (hand-placed to match approximate game geography)
-  // Based on the vertical structure: surface → underground → abyss
-  const layout = [
-    { id: 1,  x: 340, y: 30,  label: 'Asylum',       w: 110 },
-    { id: 2,  x: 310, y: 100, label: 'Firelink',      w: 110 },
-    { id: 3,  x: 160, y: 170, label: 'Burg',          w: 95  },
-    { id: 4,  x: 160, y: 240, label: 'Parish',        w: 95  },
-    { id: 5,  x: 50,  y: 310, label: 'Darkroot',      w: 110 },
-    { id: 6,  x: 260, y: 310, label: 'Depths',        w: 90  },
-    { id: 7,  x: 210, y: 390, label: 'Blighttown',    w: 120 },
-    { id: 8,  x: 420, y: 170, label: "Sen's",         w: 85  },
-    { id: 9,  x: 500, y: 240, label: 'Anor Londo',    w: 120 },
-    { id: 10, x: 500, y: 450, label: 'Tomb/Giants',   w: 130 },
-    { id: 11, x: 90,  y: 460, label: 'Demon Ruins',   w: 125 },
-    { id: 12, x: 70,  y: 540, label: 'Lost Izalith',  w: 125 },
-    { id: 13, x: 500, y: 320, label: "Duke's Archive", w: 135 },
-    { id: 14, x: 500, y: 390, label: 'Crystal Cave',  w: 125 },
-    { id: 15, x: 340, y: 390, label: 'Catacombs',     w: 115 },
-    { id: 16, x: 340, y: 460, label: 'New Londo',     w: 115 },
-    { id: 17, x: 340, y: 550, label: 'Kiln',          w: 90  },
-  ];
+function renderMap(zones, gameId) {
 
-  // Connections between zones (from prerequisite graph)
-  const connections = [
+  // ── DS1: Lordran ─────────────────────────────
+  const ds1Layout = [
+    { id: 1,  x: 340, y: 30,  label: 'Asylum',        w: 110 },
+    { id: 2,  x: 310, y: 100, label: 'Firelink',       w: 110 },
+    { id: 3,  x: 160, y: 170, label: 'Burg',           w: 95  },
+    { id: 4,  x: 160, y: 240, label: 'Parish',         w: 95  },
+    { id: 5,  x: 50,  y: 310, label: 'Darkroot',       w: 110 },
+    { id: 6,  x: 260, y: 310, label: 'Depths',         w: 90  },
+    { id: 7,  x: 210, y: 390, label: 'Blighttown',     w: 120 },
+    { id: 8,  x: 420, y: 170, label: "Sen's",          w: 85  },
+    { id: 9,  x: 500, y: 240, label: 'Anor Londo',     w: 120 },
+    { id: 10, x: 500, y: 450, label: 'Tomb/Giants',    w: 130 },
+    { id: 11, x: 90,  y: 460, label: 'Demon Ruins',    w: 125 },
+    { id: 12, x: 70,  y: 540, label: 'Lost Izalith',   w: 125 },
+    { id: 13, x: 500, y: 320, label: "Duke's Archive", w: 135 },
+    { id: 14, x: 500, y: 390, label: 'Crystal Cave',   w: 125 },
+    { id: 15, x: 340, y: 390, label: 'Catacombs',      w: 115 },
+    { id: 16, x: 340, y: 460, label: 'New Londo',      w: 115 },
+    { id: 17, x: 340, y: 550, label: 'Kiln',           w: 90  },
+  ];
+  const ds1Connections = [
     [1,2],[2,3],[3,4],[4,5],[4,6],[6,7],[4,8],[7,8],[8,9],
     [2,15],[15,10],[7,11],[11,12],[9,13],[13,14],[2,16],[17,9],[17,10],[17,12],[17,16]
   ];
 
-  const svgH = 630;
+  // ── DS2: Drangleic ───────────────────────────
+  const ds2Layout = [
+    { id: 18, x: 265, y: 25,  label: 'Things Betwixt', w: 135 },
+    { id: 19, x: 280, y: 95,  label: 'Majula',          w: 100 },
+    { id: 25, x: 40,  y: 165, label: "Huntsman's",      w: 110 },
+    { id: 20, x: 220, y: 165, label: 'Fallen Giants',   w: 130 },
+    { id: 21, x: 455, y: 165, label: "Heide's Tower",   w: 125 },
+    { id: 26, x: 45,  y: 235, label: 'Harvest Valley',  w: 125 },
+    { id: 29, x: 210, y: 235, label: 'Shaded Woods',    w: 120 },
+    { id: 33, x: 348, y: 235, label: 'Black Gulch',     w: 110 },
+    { id: 22, x: 460, y: 235, label: "No-Man's Wharf",  w: 130 },
+    { id: 27, x: 50,  y: 305, label: 'Earthen Peak',    w: 115 },
+    { id: 34, x: 195, y: 305, label: 'Brightstone Cove',w: 148 },
+    { id: 23, x: 455, y: 305, label: 'Lost Bastille',   w: 125 },
+    { id: 28, x: 60,  y: 375, label: 'Iron Keep',       w: 100 },
+    { id: 24, x: 455, y: 375, label: "Sinner's Rise",   w: 120 },
+    { id: 30, x: 248, y: 448, label: 'Drangleic Castle',w: 150 },
+    { id: 31, x: 258, y: 518, label: 'Shrine of Amana', w: 140 },
+    { id: 32, x: 265, y: 578, label: 'Undead Crypt',    w: 120 },
+    { id: 35, x: 268, y: 638, label: 'Throne of Want',  w: 125 },
+  ];
+  const ds2Connections = [
+    [18,19],
+    [19,20],[19,25],
+    [20,21],[20,29],[20,33],
+    [21,22],
+    [22,23],
+    [23,24],
+    [25,26],
+    [26,27],
+    [27,28],
+    [29,34],
+    [24,30],[28,30],[33,30],[34,30],
+    [30,31],[31,32],[32,35]
+  ];
+
+  const layout      = gameId === 2 ? ds2Layout      : ds1Layout;
+  const connections = gameId === 2 ? ds2Connections  : ds1Connections;
+
+  const svgH  = gameId === 2 ? 690 : 630;
   const nodeH = 28;
+
+  const mapName  = gameId === 2 ? 'Drangleic' : 'Lordran';
+  const mapIntro = gameId === 2
+    ? 'A schematic map of Drangleic — the kingdom built on the bones of countless cycles.'
+    : 'A schematic map of Lordran — the cursed kingdom of the undead.';
+
+  // Region label bands
+  const regionBands = gameId === 2 ? `
+    <text x="330" y="75" text-anchor="middle" font-family="Georgia,serif"
+          font-size="9" fill="#3a3020" letter-spacing="4">THINGS BETWIXT / MAJULA</text>
+    <line x1="40" y1="148" x2="620" y2="148" stroke="#2a2018" stroke-width="0.5" stroke-dasharray="4 6"/>
+    <text x="330" y="420" text-anchor="middle" font-family="Georgia,serif"
+          font-size="9" fill="#3a3020" letter-spacing="4">THE REALM OF DRANGLEIC</text>
+    <line x1="40" y1="432" x2="620" y2="432" stroke="#2a2018" stroke-width="0.5" stroke-dasharray="4 6"/>
+    <text x="330" y="608" text-anchor="middle" font-family="Georgia,serif"
+          font-size="9" fill="#3a3020" letter-spacing="4">THE KING'S DOMAIN</text>
+  ` : `
+    <text x="330" y="80" text-anchor="middle" font-family="Georgia,serif"
+          font-size="9" fill="#3a3020" letter-spacing="4">SURFACE</text>
+    <line x1="40" y1="150" x2="620" y2="150" stroke="#2a2018" stroke-width="0.5" stroke-dasharray="4 6"/>
+    <text x="330" y="345" text-anchor="middle" font-family="Georgia,serif"
+          font-size="9" fill="#3a3020" letter-spacing="4">UNDERGROUND</text>
+    <line x1="40" y1="430" x2="620" y2="430" stroke="#2a2018" stroke-width="0.5" stroke-dasharray="4 6"/>
+    <text x="330" y="510" text-anchor="middle" font-family="Georgia,serif"
+          font-size="9" fill="#3a3020" letter-spacing="4">THE ABYSS</text>
+  `;
 
   const connPaths = connections.map(([a,b]) => {
     const na = layout.find(n => n.id === a);
@@ -275,15 +338,15 @@ function renderMap(zones) {
   return `
     <div class="map-container">
       <p class="map-intro">
-        A schematic map of Lordran — the cursed kingdom of the undead.
+        ${mapIntro}
         Click any location to explore it. Green dots indicate zones you have rated.
       </p>
 
       <div class="map-svg-wrap">
         <svg viewBox="0 0 660 ${svgH}" xmlns="http://www.w3.org/2000/svg"
-             role="img" aria-label="Map of Lordran showing all zones">
-          <title>Map of Lordran</title>
-          <desc>Schematic overview of all Dark Souls zones and their connections</desc>
+             role="img" aria-label="Map of ${mapName} showing all zones">
+          <title>Map of ${mapName}</title>
+          <desc>Schematic overview of all zones and their connections in ${mapName}</desc>
 
           <!-- Background -->
           <rect width="660" height="${svgH}" fill="#080807"/>
@@ -296,14 +359,7 @@ function renderMap(zones) {
           </defs>
 
           <!-- Region labels -->
-          <text x="330" y="80" text-anchor="middle" font-family="Georgia,serif"
-                font-size="9" fill="#3a3020" letter-spacing="4">SURFACE</text>
-          <line x1="40" y1="150" x2="620" y2="150" stroke="#2a2018" stroke-width="0.5" stroke-dasharray="4 6"/>
-          <text x="330" y="345" text-anchor="middle" font-family="Georgia,serif"
-                font-size="9" fill="#3a3020" letter-spacing="4">UNDERGROUND</text>
-          <line x1="40" y1="430" x2="620" y2="430" stroke="#2a2018" stroke-width="0.5" stroke-dasharray="4 6"/>
-          <text x="330" y="510" text-anchor="middle" font-family="Georgia,serif"
-                font-size="9" fill="#3a3020" letter-spacing="4">THE ABYSS</text>
+          ${regionBands}
 
           <!-- Connections -->
           ${connPaths}
