@@ -120,9 +120,7 @@ Router.register('boss', async (app, { bossId, zoneId, zone, gameId, game }) => {
     heroEl.appendChild(editBtn);
   }
 
-  document.getElementById('boss-back').addEventListener('click', () =>
-    Router.navigate('zone', { zoneId, zone, gameId, game })
-  );
+  document.getElementById('boss-back').addEventListener('click', () => Router.back());
   document.getElementById('boss-lore-btn')?.addEventListener('click', () => Lore.openReadModal(boss.name, boss.lore));
   document.getElementById('boss-signin-link')?.addEventListener('click', e => { e.preventDefault(); Auth.openModal('login'); });
 

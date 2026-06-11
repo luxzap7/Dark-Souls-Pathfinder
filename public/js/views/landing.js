@@ -77,6 +77,8 @@ function addLandingStyles() {
       min-height: 100vh; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       padding: 80px 16px 40px; position: relative; z-index: 1;
+      background: linear-gradient(rgba(8,8,7,0.72), rgba(8,8,7,0.72)),
+                  url('/assets/images/games/main_background.jpg') center/cover no-repeat fixed;
     }
     .landing-header { text-align: center; margin-bottom: 44px; }
     .landing-title  { font-family: var(--font-title); font-size: clamp(1.6rem, 4vw, 2.8rem); color: var(--gold); margin-bottom: 8px; }

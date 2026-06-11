@@ -166,6 +166,36 @@ img { max-width: 100%; display: block; }
 }
 .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
 
+/* ── Nav Menu ── */
+.nav-menu { position: relative; }
+.nav-menu__btn {
+  background: rgba(8,8,7,0.92); border: 1px solid var(--border);
+  color: var(--text-secondary); font-family: var(--font-heading);
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 7px 13px; border-radius: var(--radius); cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+  backdrop-filter: blur(4px);
+}
+.nav-menu__btn:hover { border-color: var(--gold); color: var(--gold); }
+.nav-menu__dropdown {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  background: var(--bg-surface); border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md); min-width: 160px;
+  padding: 6px; display: none; z-index: 1100;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.8);
+}
+.nav-menu__dropdown.open { display: block; animation: modal-box-in 0.2s ease both; }
+.nav-menu__item {
+  display: block; width: 100%; text-align: left;
+  background: none; border: none;
+  font-family: var(--font-heading); font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-secondary);
+  padding: 9px 12px; border-radius: var(--radius); cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+.nav-menu__item:hover { background: var(--gold-glow); color: var(--gold); }
+.nav-menu__sep { height: 1px; background: var(--border); margin: 4px 0; }
+
 /* ── Back button ── */
 .back-btn {
   position: fixed; top: 16px; left: 16px; z-index: 500;

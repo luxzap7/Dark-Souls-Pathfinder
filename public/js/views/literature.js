@@ -64,7 +64,7 @@ Router.register('literature', (app) => {
     </div>`;
 
   app.appendChild(div);
-  document.getElementById('lit-back').addEventListener('click', () => Router.navigate('landing'));
+  document.getElementById('lit-back').addEventListener('click', () => Router.back());
 });
 
 function renderSection(title, sources) {

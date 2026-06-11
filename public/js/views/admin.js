@@ -97,7 +97,7 @@ Router.register('admin', async (app) => {
 
   app.appendChild(div);
 
-  document.getElementById('admin-back').addEventListener('click', () => Router.navigate('landing'));
+  document.getElementById('admin-back').addEventListener('click', () => Router.back());
 
   // Load all data in parallel
   try {

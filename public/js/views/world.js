@@ -17,7 +17,7 @@ Router.register('world', async (app, { gameId, game }) => {
       <div class="error-state__title">Failed to load</div>
       <div class="error-state__msg">${err.message}</div>
       <button class="btn-primary" style="width:auto;margin-top:8px"
-        onclick="Router.navigate('hub',{gameId:${gameId},game:${JSON.stringify(JSON.stringify(game))}})">← Back</button>
+        onclick="Router.back()">← Back</button>
     </div>`;
     return;
   }
@@ -64,9 +64,7 @@ Router.register('world', async (app, { gameId, game }) => {
   app.appendChild(div);
 
   // Tab switching
-  document.getElementById('world-back').addEventListener('click', () =>
-    Router.navigate('hub', { gameId, game })
-  );
+  document.getElementById('world-back').addEventListener('click', () => Router.back());
 
   div.querySelectorAll('.world-nav__btn').forEach(btn => {
     btn.addEventListener('click', () => {

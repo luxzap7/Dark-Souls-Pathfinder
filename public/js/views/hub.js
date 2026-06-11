@@ -60,7 +60,7 @@ Router.register('hub', async (app, { gameId }) => {
   app.innerHTML = '';    
   app.appendChild(div);
 
-  document.getElementById('hub-back').addEventListener('click', () => Router.navigate('landing'));
+  document.getElementById('hub-back').addEventListener('click', () => Router.back());
 
   const goSlideshow = () => {
     if (!user) { Auth.openModal('login'); showToast('Sign in to track your journey.', 'info'); return; }
@@ -122,7 +122,7 @@ Router.register('slideshow', async (app, { gameId, game }) => {
   app.innerHTML = '';  
   app.appendChild(div);
 
-  document.getElementById('slide-back').addEventListener('click', () => Router.navigate('hub', { gameId, game }));
+  document.getElementById('slide-back').addEventListener('click', () => Router.back());
 
   document.querySelectorAll('.zone-card:not(.zone-card--locked)').forEach(card => {
     card.addEventListener('click', e => {

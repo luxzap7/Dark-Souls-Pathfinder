@@ -108,7 +108,7 @@ Router.register('zone', async (app, { zoneId, gameId, game }) => {
   }
 
   // Back
-  document.getElementById('zone-back').addEventListener('click', () => Router.navigate('slideshow', { gameId, game }));
+  document.getElementById('zone-back').addEventListener('click', () => Router.back());
 
   // Lore read button
   document.getElementById('zone-lore-btn')?.addEventListener('click', () => Lore.openReadModal(zone.name, zone.lore));

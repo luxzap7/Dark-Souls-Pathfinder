@@ -1,6 +1,7 @@
 Router.register('intro', (app) => {
   const el = document.createElement('div');
   el.id = 'view-intro';
+  el.style.cssText = 'background:linear-gradient(rgba(8,8,7,0.62),rgba(8,8,7,0.62)),url(\'/assets/images/games/main_background.jpg\') center/cover no-repeat;min-height:100vh;';
   el.innerHTML = `
     <div class="intro-content">
       <span class="intro-eyebrow">A Companion for the Undead</span>
