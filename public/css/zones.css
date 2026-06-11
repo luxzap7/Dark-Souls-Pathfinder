@@ -113,7 +113,7 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px 
 .boss-list-item:not(.boss-list-item--locked):hover { border-color: var(--gold); background: var(--bg-hover); }
 .boss-list-item:focus-visible { border-color: var(--gold); outline: none; }
 .boss-list-item--locked { cursor: default; opacity: 0.4; filter: grayscale(0.7); }
-.boss-list-item__img { width: 52px; height: 52px; border-radius: var(--radius); object-fit: cover; flex-shrink: 0; border: 1px solid var(--border); }
+.boss-list-item__img { width: 52px; height: 52px; border-radius: var(--radius); object-fit: cover; object-position: center 15%; flex-shrink: 0; border: 1px solid var(--border); }
 .boss-list-item__info { flex: 1; min-width: 0; }
 .boss-list-item__name { font-family: var(--font-heading); font-size: 0.92rem; color: var(--gold); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .boss-list-item__rating { font-size: 11px; color: var(--text-secondary); }
@@ -129,7 +129,7 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px 
 }
 .boss-hero__img {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; filter: brightness(0.32);
+  object-fit: cover; object-position: center 25%; filter: brightness(0.32);
   transition: filter 0.4s ease;
 }
 .boss-hero:hover .boss-hero__img { filter: brightness(0.38); }
